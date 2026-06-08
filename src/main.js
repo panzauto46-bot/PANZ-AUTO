@@ -40,6 +40,7 @@ gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isMobile = window.matchMedia("(max-width: 768px)").matches;
 const modelCandidates = [
+  "/models/BASE%20PZ%20NEW.STL",
   "/models/BASE%20PZ.STL",
   "/models/velocity_stack.stl",
   "/assets/models/velocity_stack.stl",
