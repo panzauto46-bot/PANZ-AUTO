@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panz Auto | Performance Parts & Custom Intake</title>
+  <meta
+    name="description"
+    content="Website resmi Panz Auto untuk performance parts, custom intake, branding produk, dan showcase visual interaktif yang siap dikembangkan untuk online."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.1/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-alt: #111111;
+      --text: #ffffff;
+      --muted: #c0c0c0;
+      --subtle: #999999;
+      --border: rgba(232, 232, 232, 0.16);
+      --accent: #ff4d00;
+      --card: rgba(255, 255, 255, 0.045);
+      --font-display: "Bebas Neue", sans-serif;
+      --font-body: "Inter", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--bg); scroll-behavior: auto; }
+    body { min-height: 100vh; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; cursor: none; }
+    a, button, .hoverable, .gallery-item { cursor: none; }
+    canvas, svg, img { display: block; max-width: 100%; }
+    ::selection { background: var(--accent); color: var(--text); }
+
+    #loader { position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center; background: var(--bg); }
+    .loader-inner { text-align: center; }
+    .loader-mark { width: 54px; height: 54px; margin: 0 auto 18px; border: 1px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s cubic-bezier(0.76,0,0.24,1) infinite; }
+    .loader-text { font-family: var(--font-display); font-size: 24px; letter-spacing: .15em; color: var(--muted); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #cursor, #cursor-follower { position: fixed; top: 0; left: 0; z-index: 10000; pointer-events: none; border-radius: 999px; transform: translate(-50%, -50%); }
+    #cursor { width: 8px; height: 8px; background: var(--accent); box-shadow: 0 0 18px rgba(255,77,0,.8); }
+    #cursor-follower { width: 38px; height: 38px; border: 1px solid rgba(255,255,255,.26); mix-blend-mode: difference; }
+
+    .topbar {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(1180px, calc(100% - 32px));
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 999px;
+      background: rgba(8,8,8,.72);
+      backdrop-filter: blur(18px);
+      transform: translateX(-50%);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(255,77,0,.45);
+      border-radius: 50%;
+      font-family: var(--font-display);
+      font-size: 20px;
+      letter-spacing: .08em;
+      color: var(--accent);
+      box-shadow: 0 0 24px rgba(255,77,0,.18);
+    }
+    .brand-text strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 28px;
+      line-height: .8;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .brand-text span {
+      display: block;
+      margin-top: 4px;
+      color: var(--subtle);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .topnav { display: flex; align-items: center; gap: 10px; }
+    .topnav a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color .24s ease, background .24s ease;
+    }
+    .topnav a:hover { color: var(--text); background: rgba(255,255,255,.06); }
+
+    .section { position: relative; overflow: hidden; padding: 120px clamp(20px, 5vw, 72px); background: var(--bg); }
+    .section:nth-of-type(even) { background: var(--bg-alt); }
+    .section-eyebrow { margin-bottom: 14px; color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; }
+    .section-title { max-width: 900px; font-family: var(--font-display); font-size: clamp(56px, 8vw, 112px); line-height: .86; letter-spacing: .015em; text-transform: uppercase; }
+    .section-subtitle { max-width: 620px; margin-top: 22px; color: var(--subtle); font-size: 16px; line-height: 1.8; }
+    .word { display: inline-block; overflow: hidden; vertical-align: top; }
+    .word > span { display: inline-block; will-change: transform; }
+    .line-separator { height: 1px; width: 100%; margin: 34px 0 26px; background: rgba(232,232,232,.15); transform-origin: left center; }
+
+    .btn {
+      position: relative;
+      isolation: isolate;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      padding: 0 28px;
+      border: 1px solid rgba(255,77,0,.65);
+      border-radius: 999px;
+      background: var(--accent);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-decoration: none;
+      text-transform: uppercase;
+      box-shadow: 0 0 34px rgba(255,77,0,.35);
+      overflow: hidden;
+      transition: color .26s ease, border-color .26s ease;
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: var(--text);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .42s cubic-bezier(.19,1,.22,1);
+    }
+    .btn:hover { color: #050505; border-color: var(--text); }
+    .btn:hover::before { transform: scaleX(1); transform-origin: left; }
+
+    .hero { position: relative; min-height: 100vh; padding: 0; background: var(--bg); overflow: hidden; }
+    .hero-inner { position: relative; z-index: 4; display: grid; grid-template-columns: minmax(320px,.85fr) minmax(380px,1.15fr); align-items: center; min-height: 100vh; padding: 96px clamp(22px, 5vw, 78px); }
+    #particles-canvas { position: absolute; inset: 0; z-index: 1; opacity: .42; }
+    #hero-canvas { position: absolute; top: 0; right: 0; z-index: 2; width: 60vw; height: 100vh; background: transparent; }
+    .hero-glow { position: absolute; top: 50%; right: 12%; z-index: 1; width: min(48vw,720px); height: min(48vw,720px); border-radius: 50%; background: rgba(255,77,0,.08); box-shadow: 0 0 120px 40px rgba(255,77,0,.1), inset 0 0 180px rgba(255,255,255,.04); transform: translateY(-50%); filter: blur(8px); pointer-events: none; }
+    .hero-copy { position: relative; z-index: 5; max-width: 590px; }
+    .hero-kicker { display: inline-flex; gap: 10px; align-items: center; margin-bottom: 22px; color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing: .28em; text-transform: uppercase; }
+    .hero-kicker::before { content: ""; width: 34px; height: 1px; background: var(--accent); box-shadow: 0 0 18px rgba(255,77,0,.9); }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(76px, 8.2vw, 140px); line-height: .84; letter-spacing: .015em; text-transform: uppercase; }
+    .hero p { max-width: 520px; margin-top: 22px; color: var(--subtle); font-size: 16px; line-height: 1.8; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-top: 38px; }
+    .hero-meta { display: flex; gap: 18px; margin-top: 48px; color: var(--muted); }
+    .meta-item { min-width: 114px; padding-left: 16px; border-left: 1px solid rgba(255,255,255,.14); }
+    .meta-value { display: block; font-family: var(--font-display); font-size: 34px; color: var(--text); line-height: 1; }
+    .meta-label { display: block; margin-top: 8px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--subtle); }
+    .scroll-cue { position: absolute; left: 50%; bottom: 32px; z-index: 5; display: grid; place-items: center; width: 42px; height: 72px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; transform: translateX(-50%); }
+    .scroll-cue span { width: 5px; height: 11px; border-radius: 999px; background: var(--accent); animation: scrollCue 1.35s cubic-bezier(.76,0,.24,1) infinite; }
+    @keyframes scrollCue { 0% { transform: translateY(-12px); opacity: 0; } 35%,65% { opacity: 1; } 100% { transform: translateY(15px); opacity: 0; } }
+
+    .showcase { min-height: 260vh; padding: 0; background: var(--bg-alt); }
+    .showcase-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; background: var(--bg-alt); }
+    #showcase-canvas { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; background: transparent; }
+    .showcase-glow { position: absolute; left: 50%; top: 52%; z-index: 0; width: min(62vw,780px); height: min(62vw,780px); border-radius: 50%; background: rgba(255,77,0,.06); box-shadow: 0 0 120px rgba(255,77,0,.12); transform: translate(-50%,-50%); pointer-events: none; }
+    .showcase-heading { position: absolute; left: clamp(20px,5vw,72px); top: 80px; z-index: 4; max-width: 420px; pointer-events: none; }
+    .showcase-heading h2 { font-family: var(--font-display); font-size: clamp(48px,5vw,86px); line-height: .9; letter-spacing: .02em; text-transform: uppercase; }
+    .annotation { position: absolute; z-index: 5; display: grid; gap: 10px; min-width: 210px; opacity: 0; transform: translateY(20px); pointer-events: none; }
+    .annotation h3 { font-family: var(--font-display); font-size: clamp(28px,3vw,46px); line-height: .9; letter-spacing: .04em; text-transform: uppercase; }
+    .annotation p { max-width: 260px; color: var(--subtle); font-size: 13px; line-height: 1.6; }
+    .annotation svg { width: 190px; height: 60px; overflow: visible; }
+    .annotation path { fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; filter: drop-shadow(0 0 8px rgba(255,77,0,.72)); }
+    .ann-1 { left: 11%; top: 31%; }
+    .ann-2 { right: 12%; top: 22%; }
+    .ann-3 { left: 13%; bottom: 19%; }
+    .ann-4 { right: 9%; bottom: 18%; }
+    .ann-2 svg, .ann-4 svg { transform: scaleX(-1); }
+
+    .specs { background: var(--bg); }
+    .specs-header { display: grid; grid-template-columns: 1fr minmax(260px,460px); gap: 36px; align-items: end; margin-bottom: 44px; }
+    .spec-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; }
+    .spec-card { position: relative; min-height: 220px; padding: 28px; border: 1px solid var(--border); border-radius: 24px; background: var(--card); overflow: hidden; transform: translateY(32px); opacity: 0; }
+    .spec-card::before { content: ""; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; background: radial-gradient(circle at 80% 10%, rgba(255,77,0,.17), transparent 32%); opacity: 0; transition: opacity .32s ease; }
+    .spec-card:hover::before { opacity: 1; }
+    .spec-card small { color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+    .spec-card strong { display: block; margin-top: 26px; font-family: var(--font-display); font-size: clamp(40px,5vw,68px); line-height: .86; letter-spacing: .02em; }
+    .spec-card p { margin-top: 16px; color: var(--subtle); font-size: 14px; line-height: 1.65; }
+
+    .how { height: 100vh; padding: 0; background: var(--bg-alt); }
+    .horizontal-track { display: flex; width: 300vw; height: 100vh; will-change: transform; }
+    .flow-panel { position: relative; display: grid; grid-template-columns: minmax(320px,.8fr) minmax(380px,1.2fr); align-items: center; width: 100vw; height: 100vh; padding: 90px clamp(22px,5vw,78px); border-right: 1px solid rgba(255,255,255,.08); overflow: hidden; }
+    .flow-panel::after { content: attr(data-step); position: absolute; right: clamp(20px,5vw,78px); bottom: 32px; font-family: var(--font-display); font-size: clamp(90px,12vw,190px); line-height: 1; color: rgba(255,255,255,.035); pointer-events: none; }
+    .flow-copy h2 { font-family: var(--font-display); font-size: clamp(58px,7vw,112px); line-height: .88; letter-spacing: .02em; text-transform: uppercase; }
+    .flow-copy p { max-width: 460px; margin-top: 22px; color: var(--subtle); font-size: 16px; line-height: 1.8; }
+    .flow-diagram { position: relative; display: grid; place-items: center; min-height: 430px; border: 1px solid var(--border); border-radius: 34px; background: rgba(255,255,255,.035); box-shadow: inset 0 0 80px rgba(255,255,255,.02), 0 20px 80px rgba(0,0,0,.28); overflow: hidden; }
+    .flow-diagram svg { width: min(86%,620px); overflow: visible; }
+    .diagram-shell { fill: rgba(255,255,255,.03); stroke: rgba(255,255,255,.42); stroke-width: 2; }
+    .flow-line { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 10 14; filter: drop-shadow(0 0 12px rgba(255,77,0,.85)); }
+    .restriction { fill: rgba(255,77,0,.2); stroke: var(--accent); stroke-width: 2; }
+
+    .gallery { background: var(--bg); }
+    .gallery-header { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 44px; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); grid-auto-rows: 180px; gap: 14px; }
+    .gallery-item { position: relative; min-height: 180px; border: 1px solid var(--border); border-radius: 22px; background: #1b1b1b; overflow: hidden; transform-origin: center; }
+    .gallery-item.tall { grid-row: span 2; }
+    .gallery-item.wide { grid-column: span 2; }
+    .placeholder-img {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(110deg,#171717 8%,#242424 18%,#171717 33%);
+      background-size: 200% 100%;
+      color: rgba(255,255,255,.32);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      animation: shimmer 2.4s infinite linear;
+      filter: brightness(.94);
+      text-align: center;
+      padding: 16px;
+    }
+    @keyframes shimmer { to { background-position-x: -200%; } }
+
+    .lightbox { position: fixed; inset: 0; z-index: 9000; display: none; place-items: center; padding: 24px; background: rgba(0,0,0,.62); backdrop-filter: blur(18px); opacity: 0; }
+    .lightbox.is-open { display: grid; }
+    .lightbox-card { position: relative; width: min(920px,92vw); min-height: min(620px,72vh); border: 1px solid rgba(255,255,255,.16); border-radius: 32px; background: #171717; box-shadow: 0 30px 110px rgba(0,0,0,.6); overflow: hidden; transform: scale(.92); }
+    .lightbox-preview { position: absolute; inset: 0; display: grid; place-items: center; background: linear-gradient(110deg,#171717 8%,#2a2a2a 18%,#171717 33%); background-size: 200% 100%; animation: shimmer 2.4s infinite linear; color: rgba(255,255,255,.42); font-family: var(--font-display); font-size: clamp(42px,7vw,94px); letter-spacing: .06em; text-transform: uppercase; text-align: center; padding: 24px; }
+    .lightbox-close { position: absolute; top: 18px; right: 18px; z-index: 3; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid rgba(255,255,255,.16); border-radius: 999px; background: rgba(0,0,0,.38); color: var(--text); font-size: 26px; }
+
+    .footer-cta { min-height: 84vh; display: grid; place-items: center; text-align: center; background: var(--bg-alt); }
+    .footer-cta h2 { max-width: 950px; margin: 0 auto; font-family: var(--font-display); font-size: clamp(66px,10vw,152px); line-height: .84; letter-spacing: .018em; text-transform: uppercase; }
+    .cta-subtitle { max-width: 680px; margin: 18px auto 0; color: var(--subtle); font-size: 16px; line-height: 1.8; }
+    .magnetic-wrap { display: inline-flex; margin-top: 42px; }
+    .buy-btn { min-width: 220px; min-height: 64px; font-size: 14px; }
+    .contact-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; width: min(980px, 100%); margin: 36px auto 0; text-align: left; }
+    .contact-card { padding: 22px; border: 1px solid var(--border); border-radius: 24px; background: rgba(255,255,255,.04); }
+    .contact-card small { color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .contact-card strong { display: block; margin-top: 14px; font-family: var(--font-display); font-size: clamp(28px, 4vw, 40px); line-height: .9; letter-spacing: .03em; text-transform: uppercase; }
+    .contact-card p { margin-top: 12px; color: var(--subtle); font-size: 14px; line-height: 1.65; }
+
+    footer { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 32px clamp(22px,5vw,78px); border-top: 1px solid rgba(255,255,255,.08); background: #060606; color: var(--subtle); }
+    .footer-logo { font-family: var(--font-display); font-size: 30px; letter-spacing: .08em; color: var(--text); text-transform: uppercase; }
+    .socials { display: flex; gap: 12px; align-items: center; }
+    .socials a { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid rgba(255,255,255,.13); border-radius: 999px; color: var(--text); text-decoration: none; transition: background .26s ease, border-color .26s ease, transform .26s ease; }
+    .socials a:hover { border-color: var(--accent); background: rgba(255,77,0,.12); transform: translateY(-3px); }
+    .socials svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    .no-webgl, .module-warning { position: absolute; right: clamp(20px,5vw,72px); top: 50%; z-index: 7; width: min(460px,90vw); padding: 22px; border: 1px solid var(--border); border-radius: 20px; background: rgba(0,0,0,.75); color: var(--muted); transform: translateY(-50%); display: none; line-height: 1.6; }
+
+    @media (max-width: 1024px) {
+      .hero-inner, .specs-header, .flow-panel { grid-template-columns: 1fr; }
+      .hero-inner { align-items: end; padding-top: 44vh; padding-bottom: 86px; }
+      .topbar { top: 14px; width: min(1180px, calc(100% - 20px)); }
+      #hero-canvas { width: 100vw; height: 58vh; }
+      .hero-glow { top: 28%; right: 50%; width: 80vw; height: 80vw; transform: translate(50%,-50%); }
+      .spec-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+      .gallery-grid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+      .contact-strip { grid-template-columns: 1fr; }
+      .annotation { min-width: 180px; }
+      .ann-1 { left: 6%; top: 31%; }
+      .ann-2 { right: 6%; top: 20%; }
+      .ann-3 { left: 6%; bottom: 18%; }
+      .ann-4 { right: 6%; bottom: 15%; }
+    }
+
+    @media (max-width: 768px) {
+      body, a, button, .hoverable, .gallery-item { cursor: auto; }
+      #cursor, #cursor-follower { display: none; }
+      .topbar { flex-direction: column; align-items: stretch; gap: 12px; padding: 14px; border-radius: 26px; }
+      .topnav { justify-content: space-between; flex-wrap: wrap; }
+      .topnav a { flex: 1 1 42%; text-align: center; }
+      .section { padding: 84px 20px; }
+      .hero h1 { font-size: clamp(64px,18vw,92px); }
+      .hero p, .section-subtitle, .flow-copy p, .cta-subtitle { font-size: 14px; }
+      .hero-meta { flex-wrap: wrap; }
+      .showcase-heading { top: 36px; left: 20px; }
+      .annotation { transform: scale(.86); }
+      .annotation p, .annotation svg { display: none; }
+      .ann-1 { left: 5%; top: 28%; }
+      .ann-2 { right: 3%; top: 31%; }
+      .ann-3 { left: 5%; bottom: 22%; }
+      .ann-4 { right: 3%; bottom: 20%; }
+      .spec-grid { grid-template-columns: 1fr; }
+      .how { height: auto; }
+      .horizontal-track { display: block; width: 100%; height: auto; }
+      .flow-panel { width: 100%; height: auto; min-height: 100vh; padding: 84px 20px; }
+      .flow-diagram { min-height: 330px; }
+      .gallery-header { display: block; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; }
+      .gallery-item.wide { grid-column: span 2; }
+      footer { flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loader" aria-live="polite">
+    <div class="loader-inner">
+      <div class="loader-mark"></div>
+      <div class="loader-text">LOADING PANZ AUTO</div>
+    </div>
+  </div>
+  <div id="cursor"></div>
+  <div id="cursor-follower"></div>
+
+  <main class="site-wrap" id="smooth-wrapper">
+    <header class="topbar">
+      <a class="brand hoverable" href="#hero" aria-label="Panz Auto home">
+        <span class="brand-mark">PA</span>
+        <span class="brand-text">
+          <strong>Panz Auto</strong>
+          <span>Performance Garage</span>
+        </span>
+      </a>
+      <nav class="topnav" aria-label="Navigasi utama">
+        <a class="hoverable" href="#showcase">Produk</a>
+        <a class="hoverable" href="#specs">Keunggulan</a>
+        <a class="hoverable" href="#gallery">Galeri</a>
+        <a class="hoverable" href="#contact">Kontak</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="hero" aria-label="Hero section Panz Auto">
+      <canvas id="particles-canvas" aria-hidden="true"></canvas>
+      <div class="hero-glow" aria-hidden="true"></div>
+      <canvas id="hero-canvas" aria-label="Interactive 3D model Panz Auto"></canvas>
+      <div class="no-webgl" id="webgl-warning">WebGL tidak tersedia di browser ini. Website tetap bisa dibuka, tetapi viewer 3D produk tidak dapat ditampilkan.</div>
+      <div class="module-warning" id="module-warning">Three.js gagal dimuat. Jalankan file lewat local server dan cek koneksi internet. Contoh: <strong>python -m http.server 8000</strong></div>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="hero-kicker reveal-word">CUSTOM PARTS . CNC . PERFORMANCE</div>
+          <h1 class="split-heading hero-title">PANZ AUTO BUILT TO RESPOND</h1>
+          <p class="hero-subtitle reveal-up">Konsep yang sudah kamu buat saya matangkan jadi landing page otomotif yang lebih siap online, tetap agresif secara visual, tapi sekarang lebih rapi, lebih jelas jualannya, dan lebih terasa sebagai brand sungguhan.</p>
+          <div class="hero-actions reveal-up">
+            <a class="btn hoverable" href="#showcase" id="view-3d-btn">Lihat Produk</a>
+            <a class="btn hoverable" href="#contact">Konsultasi</a>
+          </div>
+          <div class="hero-meta reveal-up" aria-label="Highlight Panz Auto">
+            <div class="meta-item"><span class="meta-value">3D</span><span class="meta-label">Showcase Ready</span></div>
+            <div class="meta-item"><span class="meta-value">CNC</span><span class="meta-label">Detail Oriented</span></div>
+            <div class="meta-item"><span class="meta-value">24/7</span><span class="meta-label">Online Presence</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-cue" aria-hidden="true"><span></span></div>
+    </section>
+
+    <section class="showcase" id="showcase" aria-label="Fullscreen 3D product showcase">
+      <div class="showcase-sticky">
+        <div class="showcase-glow" aria-hidden="true"></div>
+        <canvas id="showcase-canvas" aria-label="Scroll animated 3D product model"></canvas>
+        <div class="showcase-heading">
+          <div class="section-eyebrow">360 Degree Detail</div>
+          <h2 class="split-heading">Built For First Impression</h2>
+        </div>
+        <div class="annotation ann-1">
+          <h3>Machining Look</h3>
+          <p>Visual produk tetap jadi pusat perhatian dengan nuansa yang terasa presisi dan premium.</p>
+          <svg viewBox="0 0 190 60" aria-hidden="true"><path d="M2 50 C48 8, 118 10, 188 2" pathLength="1" /></svg>
+        </div>
+        <div class="annotation ann-2">
+          <h3>Clean Concept</h3>
+          <p>Struktur desain lama tetap dipertahankan, tapi copy dan pengalaman browsing dibuat lebih matang.</p>
+          <svg viewBox="0 0 190 60" aria-hidden="true"><path d="M2 50 C48 8, 118 10, 188 2" pathLength="1" /></svg>
+        </div>
+        <div class="annotation ann-3">
+          <h3>Brand Presence</h3>
+          <p>Warna, tipografi, dan gerakan visual sekarang lebih konsisten dengan identitas Panz Auto.</p>
+          <svg viewBox="0 0 190 60" aria-hidden="true"><path d="M2 10 C58 52, 118 48, 188 58" pathLength="1" /></svg>
+        </div>
+        <div class="annotation ann-4">
+          <h3>Online Ready</h3>
+          <p>Sudah lebih cocok dipakai sebagai halaman promosi, portofolio produk, atau entry point untuk penjualan.</p>
+          <svg viewBox="0 0 190 60" aria-hidden="true"><path d="M2 10 C58 52, 118 48, 188 58" pathLength="1" /></svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section specs" id="specs" aria-label="Product specifications and features">
+      <div class="specs-header">
+        <div>
+          <div class="section-eyebrow">Keunggulan / Presentasi</div>
+          <h2 class="section-title split-heading">Desain Lama Tetap Ada, Kesan Brand-nya Sekarang Lebih Jadi</h2>
+        </div>
+        <p class="section-subtitle reveal-up">Arah visual tetap saya jaga sesuai konsep kamu, tapi sekarang setiap bagian punya fungsi yang lebih jelas: menarik perhatian, membangun trust, menunjukkan kualitas produk, dan mengarahkan pengunjung ke kontak atau pembelian.</p>
+      </div>
+      <div class="line-separator"></div>
+      <div class="spec-grid">
+        <article class="spec-card hoverable"><small>Identity</small><strong>Bold Hero</strong><p>Headline dan opening section dibuat lebih kuat supaya pengunjung langsung tahu karakter brand kamu.</p></article>
+        <article class="spec-card hoverable"><small>Viewer</small><strong>Interactive 3D</strong><p>Model 3D tetap dipertahankan sebagai nilai jual utama agar presentasi produk terlihat lebih niat.</p></article>
+        <article class="spec-card hoverable"><small>Layout</small><strong>More Mature</strong><p>Spacing, CTA, dan susunan informasi dibuat lebih seimbang supaya terasa seperti website brand, bukan draft.</p></article>
+        <article class="spec-card hoverable"><small>Mobile</small><strong>Responsive</strong><p>Tampilan tetap enak di layar HP dan desktop, jadi aman untuk traffic dari sosial media.</p></article>
+        <article class="spec-card hoverable"><small>Content</small><strong>Ready To Fill</strong><p>Galeri dan CTA sudah disiapkan untuk diisi foto asli, nomor admin, dan link toko resmi kapan saja.</p></article>
+        <article class="spec-card hoverable"><small>Future</small><strong>Easy To Expand</strong><p>Nanti bisa ditambah katalog, testimoni, WhatsApp langsung, lokasi workshop, atau halaman produk lain.</p></article>
+      </div>
+    </section>
+
+    <section class="how" id="how-it-works" aria-label="How the website flow works">
+      <div class="horizontal-track">
+        <article class="flow-panel" data-step="01">
+          <div class="flow-copy">
+            <div class="section-eyebrow">Flow Website</div>
+            <h2 class="split-heading">Tarik Perhatian Dulu</h2>
+            <p>Bagian awal menjaga gaya visual yang sudah kamu buat, lalu diperkuat supaya visitor langsung tertarik dan merasa ini brand yang serius.</p>
+          </div>
+          <div class="flow-diagram hoverable">
+            <svg viewBox="0 0 680 360" aria-hidden="true">
+              <path class="diagram-shell" d="M68 150 H278 C315 150 315 210 278 210 H68 Z" />
+              <rect class="restriction" x="275" y="127" width="46" height="106" rx="10" />
+              <path class="diagram-shell" d="M320 125 H615 V235 H320 Z" />
+              <path class="flow-line" d="M30 130 C120 110 210 132 292 168" />
+              <path class="flow-line" d="M30 180 C118 178 212 180 292 180" />
+              <path class="flow-line" d="M30 230 C120 250 210 228 292 192" />
+            </svg>
+          </div>
+        </article>
+        <article class="flow-panel" data-step="02">
+          <div class="flow-copy">
+            <div class="section-eyebrow">Flow Website</div>
+            <h2 class="split-heading">Tunjukkan Value Produk</h2>
+            <p>Setelah perhatian didapat, visitor dibawa ke section yang menjelaskan kualitas, gaya brand, dan potensi pengembangan konten produk.</p>
+          </div>
+          <div class="flow-diagram hoverable">
+            <svg viewBox="0 0 680 360" aria-hidden="true">
+              <path class="diagram-shell" d="M72 96 C190 120 252 144 306 178 C252 216 190 240 72 264 C98 214 98 146 72 96 Z" />
+              <path class="diagram-shell" d="M304 125 H615 V235 H304 C340 214 340 146 304 125 Z" />
+              <path class="flow-line" d="M32 118 C128 118 216 138 318 174 C420 190 515 182 632 180" />
+              <path class="flow-line" d="M32 180 C134 180 224 180 322 180 C430 180 520 180 632 180" />
+              <path class="flow-line" d="M32 242 C128 242 216 222 318 186 C420 170 515 178 632 180" />
+            </svg>
+          </div>
+        </article>
+        <article class="flow-panel" data-step="03">
+          <div class="flow-copy">
+            <div class="section-eyebrow">Flow Website</div>
+            <h2 class="split-heading">Arahkan Ke Closing</h2>
+            <p>Bagian akhir dibuat lebih siap online, jadi pengunjung bisa diarahkan ke admin, katalog, marketplace, atau konsultasi custom part.</p>
+          </div>
+          <div class="flow-diagram hoverable">
+            <svg viewBox="0 0 680 360" aria-hidden="true">
+              <path class="diagram-shell" d="M66 102 C190 122 246 142 306 180 C246 218 190 238 66 258 C100 210 100 150 66 102 Z" />
+              <path class="diagram-shell" d="M304 125 H615 V235 H304 C342 213 342 147 304 125 Z" />
+              <path class="flow-line" d="M20 112 C130 120 238 140 332 168 C420 194 525 192 656 174" />
+              <path class="flow-line" d="M20 156 C150 160 260 170 342 178 C430 186 530 184 656 180" />
+              <path class="flow-line" d="M20 204 C150 200 260 190 342 182 C430 174 530 176 656 180" />
+              <path class="flow-line" d="M20 248 C130 240 238 220 332 192 C420 166 525 168 656 186" />
+            </svg>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section gallery" id="gallery" aria-label="Product gallery and detail photos">
+      <div class="gallery-header">
+        <div>
+          <div class="section-eyebrow">Galeri / Asset</div>
+          <h2 class="section-title split-heading">Slot Foto Sudah Siap Untuk Konten Asli</h2>
+        </div>
+        <p class="section-subtitle reveal-up">Saya tidak ubah konsep galeri kamu, hanya saya rapikan supaya nanti tinggal diisi foto produk asli, dokumentasi pemasangan, packaging, konten workshop, atau materi promosi Panz Auto.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item tall hoverable" data-title="Hero Product Shot"><div class="placeholder-img">Hero Product Shot</div></div>
+        <div class="gallery-item hoverable" data-title="Detail Machining"><div class="placeholder-img">Detail Machining</div></div>
+        <div class="gallery-item wide hoverable" data-title="Installed On Build"><div class="placeholder-img">Installed On Build</div></div>
+        <div class="gallery-item hoverable" data-title="Workshop Angle"><div class="placeholder-img">Workshop Angle</div></div>
+        <div class="gallery-item hoverable" data-title="Finishing Close Up"><div class="placeholder-img">Finishing Close Up</div></div>
+        <div class="gallery-item wide hoverable" data-title="Brand Campaign Visual"><div class="placeholder-img">Brand Campaign Visual</div></div>
+        <div class="gallery-item tall hoverable" data-title="Packaging Detail"><div class="placeholder-img">Packaging Detail</div></div>
+        <div class="gallery-item hoverable" data-title="Custom Part Lineup"><div class="placeholder-img">Custom Part Lineup</div></div>
+        <div class="gallery-item hoverable" data-title="Social Content Ready"><div class="placeholder-img">Social Content Ready</div></div>
+      </div>
+    </section>
+
+    <section class="section footer-cta" id="contact" aria-label="Purchase call to action">
+      <div>
+        <div class="section-eyebrow">Ready To Go Online?</div>
+        <h2 class="split-heading">Website-nya Sudah Punya Aura Brand, Tinggal Isi Data Asli</h2>
+        <p class="cta-subtitle reveal-up">Bagian ini saya siapkan sebagai titik closing. Nanti kamu bisa ganti placeholder dengan nomor WhatsApp, Instagram resmi, link marketplace, alamat workshop, atau tombol order langsung.</p>
+        <div class="magnetic-wrap hoverable" id="magnetic-wrap">
+          <a href="#contact" class="btn buy-btn" id="buy-btn">Hubungi Sekarang</a>
+        </div>
+        <div class="contact-strip reveal-up">
+          <article class="contact-card">
+            <small>WhatsApp</small>
+            <strong>Isi Nomor Admin</strong>
+            <p>Gunakan area ini untuk tombol chat cepat, konsultasi produk, atau tanya stok secara langsung.</p>
+          </article>
+          <article class="contact-card">
+            <small>Instagram</small>
+            <strong>@panzauto</strong>
+            <p>Tempatkan akun utama brand untuk bantu visitor lanjut lihat update konten, testimoni, dan hasil build.</p>
+          </article>
+          <article class="contact-card">
+            <small>Marketplace</small>
+            <strong>Link Toko Resmi</strong>
+            <p>Tinggal sambungkan ke Shopee, Tokopedia, katalog pribadi, atau halaman checkout saat sudah siap jualan.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-logo">Panz Auto</div>
+      <div>&copy; <span id="year"></span> Panz Auto Performance Garage. Website concept ready untuk dikembangkan dan di-online-kan.</div>
+      <nav class="socials" aria-label="Social links">
+        <a class="hoverable" href="#contact" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5"></rect><circle cx="12" cy="12" r="3.5"></circle><path d="M17.5 6.8h.01"></path></svg>
+        </a>
+        <a class="hoverable" href="#contact" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M22 12s0-3.5-.45-5.2a2.8 2.8 0 0 0-2-2C17.8 4.35 12 4.35 12 4.35s-5.8 0-7.55.45a2.8 2.8 0 0 0-2 2C2 8.5 2 12 2 12s0 3.5.45 5.2a2.8 2.8 0 0 0 2 2c1.75.45 7.55.45 7.55.45s5.8 0 7.55-.45a2.8 2.8 0 0 0 2-2C22 15.5 22 12 22 12Z"></path><path d="m10 15 5-3-5-3v6Z"></path></svg>
+        </a>
+        <a class="hoverable" href="#contact" aria-label="X / Twitter">
+          <svg viewBox="0 0 24 24"><path d="m4 4 11.2 16H20L8.8 4H4Z"></path><path d="M4 20 20 4"></path></svg>
+        </a>
+      </nav>
+    </footer>
+  </main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-card">
+      <button class="lightbox-close hoverable" id="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <div class="lightbox-preview" id="lightbox-preview">Gallery Preview</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { STLLoader } from "three/addons/loaders/STLLoader.js";
+    import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+    const tests = [];
+    function test(name, fn) {
+      try {
+        fn();
+        tests.push({ name, pass: true });
+        console.info(`PASS ${name}`);
+      } catch (error) {
+        tests.push({ name, pass: false, error });
+        console.error(`FAIL ${name}`, error);
+      }
+    }
+
+    test("Three import map resolves bare specifier", () => {
+      if (!THREE || !THREE.WebGLRenderer) throw new Error("THREE.WebGLRenderer is unavailable.");
+    });
+    test("Three addons loaded", () => {
+      if (!OrbitControls || !STLLoader || !RoomEnvironment) throw new Error("A Three.js addon failed to load.");
+    });
+    test("Required canvases exist", () => {
+      ["hero-canvas", "showcase-canvas", "particles-canvas"].forEach((id) => {
+        if (!document.getElementById(id)) throw new Error(`#${id} not found.`);
+      });
+    });
+
+    gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    const modelUrl = "velocity_stack.stl";
+    const loaderOverlay = document.getElementById("loader");
+    const webglWarning = document.getElementById("webgl-warning");
+    const moduleWarning = document.getElementById("module-warning");
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function supportsWebGL() {
+      try {
+        const canvas = document.createElement("canvas");
+        return !!(window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
+      } catch (_) {
+        return false;
+      }
+    }
+
+    function hideLoader() {
+      gsap.to(loaderOverlay, {
+        autoAlpha: 0,
+        duration: .8,
+        ease: "expo.out",
+        onComplete: () => {
+          loaderOverlay.style.display = "none";
+        }
+      });
+    }
+
+    function splitWords(selector) {
+      document.querySelectorAll(selector).forEach((el) => {
+        if (el.dataset.split === "true") return;
+        const words = el.textContent.trim().split(/\s+/);
+        el.innerHTML = words.map((word) => `<span class="word"><span>${word}</span></span>`).join(" ");
+        el.dataset.split = "true";
+      });
+    }
+
+    function initSmoothScroll() {
+      if (prefersReducedMotion || typeof Lenis === "undefined") return null;
+      const lenis = new Lenis({
+        duration: 1.14,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        smoothTouch: false
+      });
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add((time) => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+      return lenis;
+    }
+    const lenis = initSmoothScroll();
+
+    function initCursor() {
+      if (isMobile) return;
+      const cursor = document.getElementById("cursor");
+      const follower = document.getElementById("cursor-follower");
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let followerX = mouseX;
+      let followerY = mouseY;
+      gsap.set([cursor, follower], { x: mouseX, y: mouseY });
+      window.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        gsap.to(cursor, { x: mouseX, y: mouseY, duration: .08, ease: "power3.out" });
+      });
+      gsap.ticker.add(() => {
+        followerX += (mouseX - followerX) * .1;
+        followerY += (mouseY - followerY) * .1;
+        gsap.set(follower, { x: followerX, y: followerY });
+      });
+      document.querySelectorAll("a, button, .hoverable, .gallery-item").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          gsap.to(cursor, { scale: 1.8, duration: .25, ease: "power3.out" });
+          gsap.to(follower, { width: 68, height: 68, borderColor: "rgba(255,77,0,.75)", duration: .35, ease: "power3.out" });
+        });
+        el.addEventListener("mouseleave", () => {
+          gsap.to(cursor, { scale: 1, duration: .25, ease: "power3.out" });
+          gsap.to(follower, { width: 38, height: 38, borderColor: "rgba(255,255,255,.26)", duration: .35, ease: "power3.out" });
+        });
+      });
+    }
+
+    function initParticles() {
+      const canvas = document.getElementById("particles-canvas");
+      const ctx = canvas.getContext("2d");
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const particles = Array.from({ length: 200 }, () => ({
+        x: Math.random(),
+        y: Math.random(),
+        z: Math.random() * .85 + .15,
+        vx: (Math.random() - .5) * .00032,
+        vy: (Math.random() - .5) * .00032,
+        r: Math.random() * 1.4 + .3
+      }));
+      function resize() {
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      function tick() {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        particles.forEach((p) => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0) p.x = 1;
+          if (p.x > 1) p.x = 0;
+          if (p.y < 0) p.y = 1;
+          if (p.y > 1) p.y = 0;
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(255,255,255,${.08 + p.z * .42})`;
+          ctx.arc(p.x * window.innerWidth, p.y * window.innerHeight, p.r * p.z, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        requestAnimationFrame(tick);
+      }
+      resize();
+      tick();
+      window.addEventListener("resize", resize);
+    }
+
+    const threeState = { geometry: null, material: null, hero: null, showcase: null, modelLoaded: false };
+
+    function createRenderer(canvas) {
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.12;
+      return renderer;
+    }
+
+    function fitCameraToObject(camera, object, controls, offset = 2.25) {
+      const box = new THREE.Box3().setFromObject(object);
+      const size = box.getSize(new THREE.Vector3());
+      const center = box.getCenter(new THREE.Vector3());
+      const maxDim = Math.max(size.x, size.y, size.z) || 1;
+      const fov = camera.fov * (Math.PI / 180);
+      const cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2)) * offset;
+      camera.position.set(center.x + cameraZ * .2, center.y + cameraZ * .12, center.z + cameraZ);
+      camera.near = cameraZ / 100;
+      camera.far = cameraZ * 100;
+      camera.updateProjectionMatrix();
+      controls.target.copy(center);
+      controls.update();
+    }
+
+    function centerAndNormalizeGeometry(geometry) {
+      geometry.computeBoundingBox();
+      const center = new THREE.Vector3();
+      geometry.boundingBox.getCenter(center);
+      geometry.translate(-center.x, -center.y, -center.z);
+      geometry.computeBoundingSphere();
+      const scale = 2.4 / (geometry.boundingSphere.radius || 1);
+      geometry.scale(scale, scale, scale);
+      geometry.computeVertexNormals();
+      return geometry;
+    }
+
+    function addLighting(scene) {
+      const key = new THREE.DirectionalLight(0xfff3df, 3.2);
+      key.position.set(5, 6, 4);
+      scene.add(key);
+      const fill = new THREE.DirectionalLight(0xcfe7ff, 1.4);
+      fill.position.set(-6, 2, 3);
+      scene.add(fill);
+      const rim = new THREE.DirectionalLight(0xff7a2c, 1.8);
+      rim.position.set(0, 2.5, -7);
+      scene.add(rim);
+      scene.add(new THREE.AmbientLight(0xffffff, .32));
+    }
+
+    function makeScene(canvas, mode = "hero") {
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(35, 1, .01, 1000);
+      const renderer = createRenderer(canvas);
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      scene.environment = pmrem.fromScene(new RoomEnvironment(), .04).texture;
+      addLighting(scene);
+      const controls = new OrbitControls(camera, canvas);
+      controls.enableDamping = true;
+      controls.dampingFactor = .06;
+      controls.enablePan = false;
+      controls.enableZoom = true;
+      controls.autoRotate = mode === "hero";
+      controls.autoRotateSpeed = 1.2;
+      controls.minDistance = 1.4;
+      controls.maxDistance = 8;
+      controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
+      let resumeTimer;
+      controls.addEventListener("start", () => {
+        controls.autoRotate = false;
+        clearTimeout(resumeTimer);
+      });
+      controls.addEventListener("end", () => {
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(() => {
+          if (mode === "hero") controls.autoRotate = true;
+        }, 3000);
+      });
+      const group = new THREE.Group();
+      scene.add(group);
+      const mesh = new THREE.Mesh(threeState.geometry.clone(), threeState.material);
+      mesh.rotation.x = -Math.PI / 2;
+      mesh.castShadow = true;
+      group.add(mesh);
+      fitCameraToObject(camera, group, controls, mode === "hero" ? 2.55 : 2.05);
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        const width = Math.max(1, rect.width);
+        const height = Math.max(1, rect.height);
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+      }
+      function animate() {
+        controls.update();
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+      resize();
+      animate();
+      window.addEventListener("resize", resize);
+      return { scene, camera, renderer, controls, group, resize };
+    }
+
+    function createFallbackVelocityStackGeometry() {
+      const shape = new THREE.Shape();
+      shape.moveTo(.42, -1.15);
+      shape.bezierCurveTo(.46, -.65, .5, -.2, .58, .1);
+      shape.bezierCurveTo(.78, .52, 1.12, .8, 1.38, .95);
+      shape.lineTo(1.38, 1.16);
+      shape.bezierCurveTo(1, 1.08, .58, .92, .3, .62);
+      shape.bezierCurveTo(.14, .18, .12, -.6, .2, -1.15);
+      shape.closePath();
+      const geometry = new THREE.LatheGeometry(shape.getPoints(80), 160);
+      geometry.rotateX(Math.PI / 2);
+      geometry.computeVertexNormals();
+      return centerAndNormalizeGeometry(geometry);
+    }
+
+    function loadVelocityStackModel() {
+      threeState.material = new THREE.MeshStandardMaterial({ metalness: .9, roughness: .2, color: 0x888888, envMapIntensity: 1.45 });
+      return new Promise((resolve) => {
+        const loader = new STLLoader();
+        loader.load(
+          modelUrl,
+          (geometry) => {
+            threeState.geometry = centerAndNormalizeGeometry(geometry);
+            threeState.modelLoaded = true;
+            resolve(true);
+          },
+          undefined,
+          () => {
+            threeState.geometry = createFallbackVelocityStackGeometry();
+            threeState.modelLoaded = false;
+            resolve(false);
+          }
+        );
+      });
+    }
+
+    function initThree() {
+      if (!supportsWebGL()) {
+        webglWarning.style.display = "block";
+        hideLoader();
+        return;
+      }
+      loadVelocityStackModel().then(() => {
+        test("Velocity stack geometry is available", () => {
+          if (!threeState.geometry) throw new Error("No STL or fallback geometry available.");
+        });
+        threeState.hero = makeScene(document.getElementById("hero-canvas"), "hero");
+        threeState.showcase = makeScene(document.getElementById("showcase-canvas"), "showcase");
+        test("Hero and showcase Three scenes are initialized", () => {
+          if (!threeState.hero || !threeState.showcase) throw new Error("Three scenes failed to initialize.");
+        });
+        gsap.fromTo(threeState.hero.group.scale, { x: .8, y: .8, z: .8 }, { x: 1, y: 1, z: 1, duration: 1.2, ease: "elastic.out(1, .58)" });
+        gsap.fromTo("#hero-canvas", { autoAlpha: 0 }, { autoAlpha: 1, duration: 1.2, ease: "expo.out" });
+        initScrollAnimations();
+        hideLoader();
+      }).catch(() => {
+        moduleWarning.style.display = "block";
+        hideLoader();
+      });
+    }
+
+    function initIntroAnimations() {
+      splitWords(".split-heading, .reveal-word");
+      gsap.from(".hero-title .word span", { yPercent: 110, rotate: 2, duration: 1.18, stagger: .05, ease: "expo.out", delay: .28 });
+      gsap.from(".hero-kicker .word span", { yPercent: 110, duration: .9, stagger: .04, ease: "expo.out", delay: .18 });
+      gsap.from(".hero .reveal-up", { y: 34, autoAlpha: 0, duration: 1, stagger: .12, ease: "power3.out", delay: .45 });
+      gsap.from(".topbar", { y: -24, autoAlpha: 0, duration: .9, ease: "power3.out", delay: .2 });
+    }
+
+    function initScrollAnimations() {
+      if (prefersReducedMotion) return;
+      document.querySelectorAll(".section-title, .flow-copy h2, .showcase-heading h2, .footer-cta h2").forEach((heading) => {
+        const words = heading.querySelectorAll(".word span");
+        if (!words.length) return;
+        gsap.from(words, { yPercent: 110, duration: 1, stagger: .04, ease: "expo.out", scrollTrigger: { trigger: heading, start: "top 82%" } });
+      });
+      gsap.utils.toArray(".line-separator").forEach((line) => {
+        gsap.from(line, { scaleX: 0, duration: 1.15, ease: "power3.out", scrollTrigger: { trigger: line, start: "top 82%" } });
+      });
+      gsap.to(".spec-card", { y: 0, autoAlpha: 1, duration: .95, stagger: .08, ease: "power3.out", scrollTrigger: { trigger: ".spec-grid", start: "top 78%" } });
+      gsap.utils.toArray(".reveal-up").forEach((el) => {
+        if (!el.closest(".hero")) {
+          gsap.from(el, { y: 26, autoAlpha: 0, duration: .9, ease: "power3.out", scrollTrigger: { trigger: el, start: "top 84%" } });
+        }
+      });
+
+      if (threeState.showcase) {
+        const showcaseTl = gsap.timeline({ scrollTrigger: { trigger: ".showcase", start: "top top", end: "bottom bottom", scrub: 1 } });
+        showcaseTl.to(threeState.showcase.group.rotation, { y: Math.PI * 2.2, x: Math.PI * .18, ease: "power3.out" }, 0);
+        document.querySelectorAll(".annotation").forEach((ann, index) => {
+          const start = .12 + index * .18;
+          const end = start + .14;
+          const path = ann.querySelector("path");
+          showcaseTl.to(ann, { autoAlpha: 1, y: 0, duration: .08, ease: "power3.out" }, start);
+          showcaseTl.to(path, { strokeDashoffset: 0, duration: .1, ease: "power3.out" }, start + .02);
+          showcaseTl.to(ann, { autoAlpha: index === 3 ? 1 : .18, duration: .08, ease: "power3.out" }, end);
+        });
+      }
+
+      if (!isMobile) {
+        const track = document.querySelector(".horizontal-track");
+        const panels = gsap.utils.toArray(".flow-panel");
+        gsap.to(track, { xPercent: -100 * (panels.length - 1), ease: "power3.out", scrollTrigger: { trigger: ".how", pin: true, scrub: 1, end: () => `+=${track.offsetWidth - window.innerWidth}` } });
+      }
+      gsap.utils.toArray(".flow-line").forEach((line) => {
+        gsap.to(line, { strokeDashoffset: -48, duration: 1.25, repeat: -1, ease: "power3.out", scrollTrigger: { trigger: line.closest(".flow-panel"), start: "top 85%", toggleActions: "play pause resume pause" } });
+      });
+      gsap.from(".gallery-item", { y: 34, autoAlpha: 0, duration: .8, stagger: .06, ease: "power3.out", scrollTrigger: { trigger: ".gallery-grid", start: "top 82%" } });
+      gsap.from(".contact-card", { y: 28, autoAlpha: 0, duration: .8, stagger: .08, ease: "power3.out", scrollTrigger: { trigger: ".contact-strip", start: "top 82%" } });
+    }
+
+    function initHoverAnimations() {
+      document.querySelectorAll(".gallery-item").forEach((item) => {
+        item.addEventListener("mouseenter", () => gsap.to(item, { scale: 1.05, filter: "brightness(1.18)", duration: .38, ease: "power3.out" }));
+        item.addEventListener("mouseleave", () => gsap.to(item, { scale: 1, filter: "brightness(1)", duration: .38, ease: "power3.out" }));
+      });
+      document.querySelectorAll(".spec-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const rotateY = gsap.utils.mapRange(0, rect.width, -4, 4, x);
+          const rotateX = gsap.utils.mapRange(0, rect.height, 4, -4, y);
+          gsap.to(card, { rotateX, rotateY, transformPerspective: 900, duration: .35, ease: "power3.out" });
+        });
+        card.addEventListener("mouseleave", () => gsap.to(card, { rotateX: 0, rotateY: 0, duration: .55, ease: "elastic.out(1, .55)" }));
+      });
+    }
+
+    function initLightbox() {
+      const lightbox = document.getElementById("lightbox");
+      const card = lightbox.querySelector(".lightbox-card");
+      const preview = document.getElementById("lightbox-preview");
+      const close = document.getElementById("lightbox-close");
+      function openLightbox(label) {
+        preview.textContent = label;
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+        gsap.fromTo(lightbox, { autoAlpha: 0 }, { autoAlpha: 1, duration: .35, ease: "power3.out" });
+        gsap.fromTo(card, { scale: .92, y: 24 }, { scale: 1, y: 0, duration: .55, ease: "expo.out" });
+      }
+      function closeLightbox() {
+        gsap.to(card, { scale: .94, y: 18, duration: .28, ease: "power3.out" });
+        gsap.to(lightbox, {
+          autoAlpha: 0,
+          duration: .28,
+          ease: "power3.out",
+          onComplete: () => {
+            lightbox.classList.remove("is-open");
+            lightbox.setAttribute("aria-hidden", "true");
+          }
+        });
+      }
+      document.querySelectorAll(".gallery-item").forEach((item, index) => {
+        item.addEventListener("click", () => {
+          const label = item.dataset.title || `Gallery Item ${String(index + 1).padStart(2, "0")}`;
+          openLightbox(label);
+        });
+      });
+      close.addEventListener("click", closeLightbox);
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
+      });
+    }
+
+    function initMagneticButton() {
+      const wrap = document.getElementById("magnetic-wrap");
+      const btn = document.getElementById("buy-btn");
+      if (!wrap || !btn || isMobile) return;
+      wrap.addEventListener("mousemove", (e) => {
+        const rect = wrap.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        gsap.to(btn, { x: x * .34, y: y * .42, duration: .42, ease: "power3.out" });
+      });
+      wrap.addEventListener("mouseleave", () => gsap.to(btn, { x: 0, y: 0, duration: .7, ease: "elastic.out(1, .45)" }));
+    }
+
+    function initSmoothAnchors() {
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", (e) => {
+          const id = anchor.getAttribute("href");
+          if (!id || id === "#") return;
+          const target = document.querySelector(id);
+          if (!target) return;
+          e.preventDefault();
+          if (lenis) lenis.scrollTo(target, { offset: 0, duration: 1.15 });
+          else target.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+    }
+
+    function initBuyButton() {
+      const button = document.getElementById("buy-btn");
+      if (!button) return;
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        gsap.fromTo(e.currentTarget, { scale: .94 }, { scale: 1, duration: .55, ease: "elastic.out(1, .45)" });
+        const target = document.querySelector(".contact-strip");
+        if (lenis && target) lenis.scrollTo(target, { offset: -40, duration: 1 });
+        else if (target) target.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+
+    window.__velocityStackTests = tests;
+    initParticles();
+    initCursor();
+    initIntroAnimations();
+    initHoverAnimations();
+    initLightbox();
+    initMagneticButton();
+    initSmoothAnchors();
+    initBuyButton();
+    initThree();
+  </script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panz Auto | Performance Parts & Custom Intake</title>
+  <meta
+    name="description"
+    content="Website resmi Panz Auto untuk performance parts, custom intake, branding produk, dan showcase visual interaktif yang siap dikembangkan untuk online."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div id="loader" aria-live="polite">
+    <div class="loader-inner">
+      <div class="loader-mark"></div>
+      <div class="loader-text">LOADING PANZ AUTO</div>
+    </div>
+  </div>
+  <div id="cursor"></div>
+  <div id="cursor-follower"></div>
+
+  <main class="site-wrap" id="smooth-wrapper">
+    <header class="topbar">
+      <a class="brand hoverable" href="#hero" aria-label="Panz Auto home">
+        <span class="brand-mark">PZ</span>
+        <span class="brand-text">
+          <strong>Panz Auto</strong>
+          <span>Performance Garage</span>
+        </span>
+      </a>
+      <nav class="topnav" aria-label="Navigasi utama">
+        <a class="hoverable" href="#showcase">Product</a>
+        <a class="hoverable" href="#specs">Features</a>
+        <a class="hoverable" href="#gallery">Gallery</a>
+        <a class="hoverable" href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="hero" aria-label="Hero section Panz Auto">
+      <canvas id="particles-canvas" aria-hidden="true"></canvas>
+      <div class="hero-glow" aria-hidden="true"></div>
+      <canvas id="hero-canvas" aria-label="Interactive 3D model Panz Auto"></canvas>
+      <div class="no-webgl" id="webgl-warning">WebGL tidak tersedia di browser ini. Website tetap bisa dibuka, tetapi viewer 3D produk tidak dapat ditampilkan.</div>
+      <div class="module-warning" id="module-warning">Tampilan 3D gagal dimuat. Jalankan lewat local server Vite dan cek koneksi internet. Contoh: <strong>npm run dev</strong></div>
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="hero-kicker reveal-word">CUSTOM PARTS . PLASTIC ABS . PERFORMANCE</div>
+          <h1 class="split-heading hero-title">PANZ AUTO BUILT FOR DETAIL</h1>
+          <p class="hero-subtitle reveal-up">Made from ABS material with insulating properties to help reduce heat transfer from the velocity stack to the incoming airflow, keeping performance more consistent on the street and on the track.</p>
+          <div class="hero-actions reveal-up">
+            <a class="btn hoverable" href="#showcase" id="view-3d-btn">Lihat Produk</a>
+            <a class="btn hoverable" href="#contact">Konsultasi</a>
+          </div>
+          <div class="hero-meta reveal-up" aria-label="Highlight Panz Auto">
+            <div class="meta-item"><span class="meta-value">3D</span><span class="meta-label">Showcase Ready</span></div>
+            <div class="meta-item"><span class="meta-value">ABS</span><span class="meta-label">Heat Isolator</span></div>
+            <div class="meta-item"><span class="meta-value">24/7</span><span class="meta-label">Online Presence</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-cue" aria-hidden="true"><span></span></div>
+    </section>
+
+    <section class="showcase" id="showcase" aria-label="Fullscreen 3D product showcase">
+      <div class="showcase-sticky">
+        <div class="showcase-glow" aria-hidden="true"></div>
+        <canvas id="showcase-canvas" aria-label="Scroll animated 3D product model"></canvas>
+        <div class="showcase-heading">
+          <div class="section-eyebrow">360 Degree Detail</div>
+          <h2 class="split-heading">Designed For Flow</h2>
+        </div>
+        <div class="annotation ann-1">
+          <h3>Functional Form</h3>
+          <p>The product shape is designed to support function while delivering a cleaner and more refined look around the intake area.</p>
+          <svg viewBox="0 0 190 60" aria-hidden="true"><path d="M2 50 C48 8, 118 10, 188 2" pathLength="1" /></svg>
+        </div>
+        <div class="annotation ann-2">
+          <h3>Flow Optimized</h3>
+          <p>Shaped to support a smoother air entry and a more controlled flow path toward the intake.</p>
+          <svg viewBox="0 0 190 60" aria-hidden="true"><path d="M2 50 C48 8, 118 10, 188 2" pathLength="1" /></svg>
+        </div>
+        <div class="annotation ann-3">
+          <h3>Tuning Options</h3>
+          <p>Available in multiple lengths, giving riders more flexibility to test and choose the setup that best suits their engine.</p>
+          <svg viewBox="0 0 190 60" aria-hidden="true"><path d="M2 10 C58 52, 118 48, 188 58" pathLength="1" /></svg>
+        </div>
+        <div class="annotation ann-4">
+          <h3>Smooth Finish</h3>
+          <p>Finished with a smooth surface to deliver a cleaner look and a more refined overall appearance.</p>
+          <svg viewBox="0 0 190 60" aria-hidden="true"><path d="M2 10 C58 52, 118 48, 188 58" pathLength="1" /></svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section specs" id="specs" aria-label="Product specifications and features">
+      <div class="specs-header">
+        <div>
+          <div class="section-eyebrow">Features / Velocity Stack</div>
+          <h2 class="section-title split-heading">Engineered For Flow, Detail, And Testing</h2>
+        </div>
+        <p class="section-subtitle reveal-up">PANZ AUTO Velocity Stack is developed to support airflow quality, offer more flexible tuning options, and maintain a cleaner look around the intake area.</p>
+      </div>
+      <div class="line-separator"></div>
+      <div class="spec-grid">
+        <article class="spec-card hoverable"><small>Material</small><strong>ABS Isolator</strong><p>Made from ABS material with insulating properties to help reduce heat transfer from the velocity stack to the airflow, keeping performance more consistent on the street and on the track.</p></article>
+        <article class="spec-card hoverable"><small>Design</small><strong>Tapered Shape</strong><p>A specially calculated tapered design helps improve airflow entry and supports better overall intake flow performance.</p></article>
+        <article class="spec-card hoverable"><small>Tuning</small><strong>Length Options</strong><p>Available in multiple length options to provide more room for testing and adjustment based on engine character and setup needs.</p></article>
+        <article class="spec-card hoverable"><small>Finish</small><strong>Smooth Surface</strong><p>A smooth finishing touch delivers a cleaner appearance while supporting the product's overall visual quality once installed.</p></article>
+        <article class="spec-card hoverable"><small>Weight</small><strong>Lightweight Build</strong><p>Lightweight material helps keep the intake system efficient without adding unnecessary weight to the setup.</p></article>
+        <article class="spec-card hoverable"><small>Application</small><strong>Street To Track</strong><p>Designed for riders who want to pursue airflow function while keeping the intake area looking cleaner and more purposeful.</p></article>
+      </div>
+    </section>
+
+    <section class="section airflow-section" id="how-it-works" aria-label="Velocity stack airflow concept">
+      <div class="airflow-layout">
+        <div class="airflow-copy">
+          <div class="section-eyebrow">Airflow Concept</div>
+          <h2 class="section-title split-heading">Flow Transition</h2>
+          <p class="section-subtitle reveal-up">This concept visual illustrates how the tapered profile helps guide airflow into a smoother and more controlled path toward the intake.</p>
+          <div class="airflow-notes reveal-up">
+            <article class="airflow-note">
+              <small>Entry</small>
+              <p>The wide-mouth opening helps guide incoming air more smoothly before it moves deeper into the intake path.</p>
+            </article>
+            <article class="airflow-note">
+              <small>Delivery</small>
+              <p>By helping organize airflow before it reaches the intake, the design supports a cleaner transition and a more purposeful delivery path.</p>
+            </article>
+          </div>
+        </div>
+        <div class="flow-diagram flow-diagram--image hoverable">
+          <img src="/images/velocity-stack-airflow-concept.png" alt="Velocity stack airflow concept illustration" />
+          <svg class="airflow-overlay" viewBox="0 0 1000 520" aria-hidden="true">
+            <path id="air-path-1" class="airflow-path" d="M110 150 C230 155 330 175 438 220 C536 252 672 256 900 255" />
+            <path id="air-path-2" class="airflow-path" d="M110 192 C235 198 334 212 444 236 C550 250 684 252 900 252" />
+            <path id="air-path-3" class="airflow-path" d="M110 234 C238 238 338 242 448 250 C560 250 690 250 900 250" />
+            <path id="air-path-4" class="airflow-path" d="M110 276 C235 272 334 258 444 244 C550 250 684 248 900 248" />
+            <path id="air-path-5" class="airflow-path" d="M110 318 C230 312 330 292 438 262 C536 248 672 244 900 245" />
+            <circle class="airflow-particle" data-path="#air-path-1" r="4" />
+            <circle class="airflow-particle" data-path="#air-path-2" r="3.5" />
+            <circle class="airflow-particle" data-path="#air-path-3" r="4" />
+            <circle class="airflow-particle" data-path="#air-path-4" r="3.5" />
+            <circle class="airflow-particle" data-path="#air-path-5" r="4" />
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery" id="gallery" aria-label="Product gallery and detail photos">
+      <div class="gallery-header">
+        <div>
+          <div class="section-eyebrow">Galeri / Asset</div>
+          <h2 class="section-title split-heading">Slot Foto Sudah Siap Untuk Konten Asli</h2>
+        </div>
+        <p class="section-subtitle reveal-up">Saya tidak ubah konsep galeri kamu, hanya saya rapikan supaya nanti tinggal diisi foto produk asli, dokumentasi pemasangan, packaging, konten workshop, atau materi promosi Panz Auto.</p>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item tall hoverable" data-title="Hero Product Shot"><div class="placeholder-img">Hero Product Shot</div></div>
+        <div class="gallery-item hoverable" data-title="Detail Machining"><div class="placeholder-img">Detail Machining</div></div>
+        <div class="gallery-item wide hoverable" data-title="Installed On Build"><div class="placeholder-img">Installed On Build</div></div>
+        <div class="gallery-item hoverable" data-title="Workshop Angle"><div class="placeholder-img">Workshop Angle</div></div>
+        <div class="gallery-item hoverable" data-title="Finishing Close Up"><div class="placeholder-img">Finishing Close Up</div></div>
+        <div class="gallery-item wide hoverable" data-title="Brand Campaign Visual"><div class="placeholder-img">Brand Campaign Visual</div></div>
+        <div class="gallery-item tall hoverable" data-title="Packaging Detail"><div class="placeholder-img">Packaging Detail</div></div>
+        <div class="gallery-item hoverable" data-title="Custom Part Lineup"><div class="placeholder-img">Custom Part Lineup</div></div>
+        <div class="gallery-item hoverable" data-title="Social Content Ready"><div class="placeholder-img">Social Content Ready</div></div>
+      </div>
+    </section>
+
+    <section class="section footer-cta" id="contact" aria-label="Purchase call to action">
+      <div>
+        <div class="section-eyebrow">Ready To Go Online?</div>
+        <h2 class="split-heading">Website-nya Sudah Punya Aura Brand, Tinggal Isi Data Asli</h2>
+        <p class="cta-subtitle reveal-up">Bagian ini saya siapkan sebagai titik closing. Nanti kamu bisa ganti placeholder dengan nomor WhatsApp, Instagram resmi, link marketplace, alamat workshop, atau tombol order langsung.</p>
+        <div class="magnetic-wrap hoverable" id="magnetic-wrap">
+          <a href="#contact" class="btn buy-btn" id="buy-btn">Hubungi Sekarang</a>
+        </div>
+        <div class="contact-strip reveal-up">
+          <article class="contact-card">
+            <small>WhatsApp</small>
+            <strong>Isi Nomor Admin</strong>
+            <p>Gunakan area ini untuk tombol chat cepat, konsultasi produk, atau tanya stok secara langsung.</p>
+          </article>
+          <article class="contact-card">
+            <small>Instagram</small>
+            <strong>@panzauto</strong>
+            <p>Tempatkan akun utama brand untuk bantu visitor lanjut lihat update konten, testimoni, dan hasil build.</p>
+          </article>
+          <article class="contact-card">
+            <small>Marketplace</small>
+            <strong>Link Toko Resmi</strong>
+            <p>Tinggal sambungkan ke Shopee, Tokopedia, katalog pribadi, atau halaman checkout saat sudah siap jualan.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-logo">Panz Auto</div>
+      <div>&copy; <span id="year"></span> Panz Auto Performance Garage. Website concept ready untuk dikembangkan dan di-online-kan.</div>
+      <nav class="socials" aria-label="Social links">
+        <a class="hoverable" href="#contact" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="5"></rect><circle cx="12" cy="12" r="3.5"></circle><path d="M17.5 6.8h.01"></path></svg>
+        </a>
+        <a class="hoverable" href="#contact" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M22 12s0-3.5-.45-5.2a2.8 2.8 0 0 0-2-2C17.8 4.35 12 4.35 12 4.35s-5.8 0-7.55.45a2.8 2.8 0 0 0-2 2C2 8.5 2 12 2 12s0 3.5.45 5.2a2.8 2.8 0 0 0 2 2c1.75.45 7.55.45 7.55.45s5.8 0 7.55-.45a2.8 2.8 0 0 0 2-2C22 15.5 22 12 22 12Z"></path><path d="m10 15 5-3-5-3v6Z"></path></svg>
+        </a>
+        <a class="hoverable" href="#contact" aria-label="X / Twitter">
+          <svg viewBox="0 0 24 24"><path d="m4 4 11.2 16H20L8.8 4H4Z"></path><path d="M4 20 20 4"></path></svg>
+        </a>
+      </nav>
+    </footer>
+  </main>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightbox-card">
+      <button class="lightbox-close hoverable" id="lightbox-close" aria-label="Close lightbox">&times;</button>
+      <div class="lightbox-preview" id="lightbox-preview">Gallery Preview</div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
