@@ -195,13 +195,23 @@ canvas, svg, img { display: block; max-width: 100%; }
 .flow-diagram svg { width: min(86%,620px); overflow: visible; }
 .flow-diagram--image { background: radial-gradient(circle at 50% 50%, rgba(255,77,0,.08), rgba(255,255,255,.02) 38%, rgba(255,255,255,.03) 100%); }
 .flow-diagram--image img { width: min(92%, 780px); max-height: 92%; object-fit: contain; filter: drop-shadow(0 18px 40px rgba(0,0,0,.35)); }
-.airflow-overlay { position: absolute; inset: 6% 7%; width: auto !important; height: auto; pointer-events: none; overflow: visible; }
+.airflow-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(92%, 780px) !important;
+  aspect-ratio: 1784 / 881;
+  height: auto;
+  pointer-events: none;
+  overflow: visible;
+  transform: translate(-50%, -50%);
+}
 .airflow-path { fill: none; stroke: rgba(255,120,32,.42); stroke-width: 2.2; stroke-linecap: round; stroke-dasharray: 10 12; filter: drop-shadow(0 0 8px rgba(255,110,28,.55)); }
 .airflow-particle { fill: #ff7a1a; filter: drop-shadow(0 0 8px rgba(255,122,26,.9)); opacity: .95; }
 .airflow-overlay::before {
   content: "";
   position: absolute;
-  inset: 42% 12% 42% 56%;
+  inset: 46% 12% 46% 56%;
   background: linear-gradient(90deg, rgba(255,120,32,0), rgba(255,120,32,.18), rgba(255,120,32,0));
   filter: blur(18px);
   animation: airflowPulse 2.8s ease-in-out infinite;
