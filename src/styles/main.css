@@ -201,7 +201,7 @@ canvas, svg, img { display: block; max-width: 100%; }
 .airflow-overlay::before {
   content: "";
   position: absolute;
-  inset: 38% 12% 38% 56%;
+  inset: 42% 12% 42% 56%;
   background: linear-gradient(90deg, rgba(255,120,32,0), rgba(255,120,32,.18), rgba(255,120,32,0));
   filter: blur(18px);
   animation: airflowPulse 2.8s ease-in-out infinite;
